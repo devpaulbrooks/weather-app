@@ -1,14 +1,12 @@
-
-import './App.css'
-import Weather from './pages/Weather'
+import './App.css';
+import Weather from './pages/Weather';
 
 function App() {
-
   return (
     <>
-      <Weather/>
+      <Weather />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

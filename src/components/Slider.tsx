@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -10,14 +10,12 @@ import Card from './Card';
 const Slider: React.FC<SliderProps> = ({ weather }) => {
   return (
     <div style={{ width: '100%' }}>
-
       <Swiper
         slidesPerView={1}
         spaceBetween={10}
         modules={[Pagination, Navigation]}
         navigation={true}
         className="mySwiper"
-
         breakpoints={{
           640: {
             slidesPerView: 2,
@@ -32,20 +30,15 @@ const Slider: React.FC<SliderProps> = ({ weather }) => {
             spaceBetween: 40,
           },
         }}
-
       >
-        {weather.map((data, index) =>
-          <SwiperSlide  key={index}>
+        {weather.map((data, index) => (
+          <SwiperSlide key={index}>
             <Card weather={data} />
           </SwiperSlide>
-
-        )}
+        ))}
       </Swiper>
-
-
-
     </div>
-  )
-}
+  );
+};
 
-export default Slider
+export default Slider;
