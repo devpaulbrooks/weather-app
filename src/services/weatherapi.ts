@@ -6,7 +6,7 @@ export const weatherSearchApiHandler = async (city: string) => {
         method: 'GET',
         url: `https://open-weather13.p.rapidapi.com/city/${city}/EN`,
         headers: {
-            'x-rapidapi-key': 'a3580aa4aamsh1615d4563815f52p14867fjsnb4ada19b583d',
+            'x-rapidapi-key': '1a21ccaf4cmsh8b122645d96170cp165c5ajsnb7730d69ef47',
             'x-rapidapi-host': 'open-weather13.p.rapidapi.com'
         }
     };

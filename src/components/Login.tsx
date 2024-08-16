@@ -1,11 +1,6 @@
 import { Button, Input } from 'antd';
+import { LoginProps } from '../interfaces/weather.interface';
 
-interface LoginProps {
-    error?: string;
-    setUserName: (value: string) => void;
-    setError: (value: string) => void;
-    userName: string;
-}
 
 const Login: React.FC<LoginProps> = ({ error, setUserName, userName, setError }) => {
 
@@ -23,6 +18,7 @@ const Login: React.FC<LoginProps> = ({ error, setUserName, userName, setError })
     return (
         <div className='login-container'>
             <h3>Login</h3>
+            <div style={{width:'100%'}}>
             <Input
                 placeholder="Enter username"
                 onChange={handleInputChange}
@@ -30,6 +26,7 @@ const Login: React.FC<LoginProps> = ({ error, setUserName, userName, setError })
                 aria-label="Username"
             />
             {error && <p className='error'>{error}</p>}
+            </div>
             <Button
                 type="primary"
                 onClick={handleLogin}

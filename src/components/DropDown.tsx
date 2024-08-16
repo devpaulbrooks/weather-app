@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AutoComplete, Button, } from 'antd';
 import { Select, Space } from 'antd';
 import { weatherSearchApiHandler } from '../services/weatherapi';
 import { countries } from '../utils/countries'
 import Slider from './Slider';
-interface OptionType {
-    label: string;
-    value: string;
-}
+
+import { OptionType } from '../interfaces/weather.interface';
 
 const Dropdown: React.FC = () => {
     const [options, setOptions] = useState<OptionType[]>(Object.keys(countries).map(c => ({ label: c, value: c })));
@@ -15,35 +13,42 @@ const Dropdown: React.FC = () => {
     const [search, setSearch] = useState<string[]>([])
     const [weather, setWeather] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+   
+    const userName = localStorage.getItem('user') || 'Guest';
 
-    const handleSearch = (value: string) => {
+    const handleSearch = useCallback((value: string) => {
         const pattern = new RegExp(value, 'i');
-        setOptions(() => {
-            return options.filter((ele) => pattern.test(ele.label))
-        });
-    };
+        setOptions(prevOptions => 
+            prevOptions.filter(option => pattern.test(option.label))
+        );
+    }, []);
 
 
-    const selectCountry = (value: string) => {
-        setCities(countries[value as keyof typeof countries].map((city: string) => ({ label: city, value: city })))
-    }
+    const selectCountry = useCallback((value: string) => {
+        setCities(countries[value as keyof typeof countries].map(city => ({ label: city, value: city })));
+    }, []);
 
     const handleChange = (value: string[]) => {
         setSearch(value)
     };
 
     const searchButtonHandler = async () => {
-        setLoading(true)
-        const response = await Promise.all(search.map(name => weatherSearchApiHandler(name)))
-        setWeather(response)
-        console.log("response :", response)
-        setLoading(false)
+        setLoading(true);
+        try {
+            const responses = await Promise.all(search.map(city => weatherSearchApiHandler(city)));
+            setWeather(responses);
+            console.log("Weather responses:", responses);
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <>
         <div className='dropdown-container'>
-
+           <h3>Welcome  {userName}</h3>
             <Space style={{ width: '100%' }} direction="vertical">
                 <AutoComplete
                     onSelect={selectCountry}
